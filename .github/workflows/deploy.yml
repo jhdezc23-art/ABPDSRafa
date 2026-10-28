@@ -2,7 +2,7 @@ name: Deploy Next.js (estático) a EC2
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, classactivity]
   workflow_dispatch:
 
 jobs:
@@ -22,11 +22,11 @@ jobs:
       - name: Configurar SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/key.pem
+          echo "${{ secrets.EC2_SSH_KEY_JHORDAN }}" > ~/.ssh/key.pem
           chmod 600 ~/.ssh/key.pem
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST_JHORDAN }} >> ~/.ssh/known_hosts
 
       - name: Copiar out/ a EC2
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/key.pem" \
-            ./out/ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/html/
+            ./out/ ${{ secrets.EC2_USER_JHORDAN }}@${{ secrets.EC2_HOST_JHORDAN }}:/var/www/html/
